@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from "vue"
 
+defineProps<{ modelValue: string }>()
+const emit = defineEmits<{ (e: 'update:modelValue', url: string): void }>()
+
 function dragover(e: DragEvent) {
   e.preventDefault()
   isDragging.value = true
@@ -20,6 +23,15 @@ function drop(e: DragEvent) {
 
 function onChange() {
   file.value = input.value?.files?.[0] ?? null
+
+  if (!file.value) return
+  const fr = new FileReader()
+  fr.onload = () => {
+    let url = fr.result
+    if (typeof url !== 'string') url = ''
+    emit('update:modelValue', url)
+  }
+  fr.readAsDataURL(file.value)
 }
 
 const file = ref<File | null>(null)

@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import { FileUpload } from './components'
+import { ref } from "vue"
+
+const url = ref('')
 </script>
 
 <template>
   <h1>i am an editor page</h1>
   <router-link to="/">go home</router-link>
+
+  <img :src="url" alt="">
+
   <div style="margin-top: 100px">
-    <file-upload />
+    <file-upload v-model="url" />
   </div>
 </template>
 
