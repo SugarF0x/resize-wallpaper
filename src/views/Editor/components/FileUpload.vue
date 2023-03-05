@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, watchEffect } from "vue"
+import { useEditorStore } from "@/views/Editor/store"
+import { storeToRefs } from "pinia"
 
-const props = defineProps<{ modelValue: string }>()
-const emit = defineEmits<{ (e: 'update:modelValue', url: string): void }>()
+const { uploadedImageUrl } = storeToRefs(useEditorStore())
 
 function dragover(e: DragEvent) {
   e.preventDefault()
@@ -29,7 +30,7 @@ function onChange() {
   fr.onload = () => {
     let url = fr.result
     if (typeof url !== 'string') url = ''
-    emit('update:modelValue', url)
+    uploadedImageUrl.value = url
   }
   fr.readAsDataURL(file.value)
 }
@@ -38,7 +39,7 @@ const file = ref<File | null>(null)
 const input = ref<null | HTMLInputElement>(null)
 
 watchEffect(() => {
-  if (props.modelValue !== '') return
+  if (uploadedImageUrl.value !== '') return
   if (!input.value) return
   input.value.value = ''
 })

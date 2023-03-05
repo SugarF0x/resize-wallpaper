@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import { Paths } from "@/router"
 import { FileUpload } from './components'
-import { ref } from "vue"
+import { storeToRefs } from "pinia"
+import { useEditorStore } from "@/views/Editor/store"
 
-const url = ref('')
+const { uploadedImageUrl } = storeToRefs(useEditorStore())
 </script>
 
 <template>
   <h1>i am an editor page</h1>
   <router-link :to="Paths.HOME">go home</router-link>
 
-  <button @click="url = ''">reset</button>
+  <button @click="uploadedImageUrl = ''">reset</button>
 
-  <img :src="url" alt="">
+  <img :src="uploadedImageUrl" alt="">
 
   <div style="margin-top: 100px">
-    <file-upload v-model="url" />
+    <file-upload />
   </div>
 </template>
 
