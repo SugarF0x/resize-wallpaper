@@ -1,13 +1,15 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
 
-export const useEditorStore = defineStore('editor', () => {
+const useEditorStore = defineStore('editor', () => {
   const uploadedImageUrl = ref('')
 
-  const aspectRatio = ref(16/9)
+  const aspectRatio = ref([1, 1])
 
   return {
     uploadedImageUrl,
     aspectRatio
   }
 })
+
+export default useEditorStore

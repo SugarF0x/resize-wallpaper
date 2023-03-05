@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watchEffect } from "vue"
-import { useEditorStore } from "@/views/Editor/store"
+import useEditorStore from "@/views/Editor/store"
 import { storeToRefs } from "pinia"
 
 const { uploadedImageUrl } = storeToRefs(useEditorStore())
