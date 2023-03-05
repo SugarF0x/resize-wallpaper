@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from "vue"
+import { computed, ref, watchEffect } from "vue"
 
-defineProps<{ modelValue: string }>()
+const props = defineProps<{ modelValue: string }>()
 const emit = defineEmits<{ (e: 'update:modelValue', url: string): void }>()
 
 function dragover(e: DragEvent) {
@@ -36,6 +36,12 @@ function onChange() {
 
 const file = ref<File | null>(null)
 const input = ref<null | HTMLInputElement>(null)
+
+watchEffect(() => {
+  if (props.modelValue !== '') return
+  if (!input.value) return
+  input.value.value = ''
+})
 
 const isDragging = ref(false)
 const labelText = computed(() => isDragging.value ? 'Release to drop files here' : 'Drop files here or click here to upload.')
