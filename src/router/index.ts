@@ -1,3 +1,7 @@
-export { default } from './router'
-export { default as Paths } from './paths'
-export { default as Routes } from './routes'
+import { createRouter, createWebHistory } from "vue-router"
+import routes from './routes'
+
+export default createRouter({
+  history: createWebHistory(),
+  routes
+})

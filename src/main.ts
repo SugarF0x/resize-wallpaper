@@ -1,6 +1,5 @@
 import { createApp } from 'vue'
 import Router from './router'
-import './style.css'
 import App from './App.vue'
 import { createPinia } from "pinia"
 import vuetify from "@/plugins/vuetify"
