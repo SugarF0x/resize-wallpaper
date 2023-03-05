@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Paths } from "@/router"
 import { FileUpload } from './components'
 import { ref } from "vue"
 
@@ -7,7 +8,7 @@ const url = ref('')
 
 <template>
   <h1>i am an editor page</h1>
-  <router-link to="/">go home</router-link>
+  <router-link :to="Paths.HOME">go home</router-link>
 
   <img :src="url" alt="">
 
