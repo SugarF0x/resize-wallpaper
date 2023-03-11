@@ -23,19 +23,19 @@ const size = computed(() => getConfinedSizeByAspectRatio(maxWidth.value, maxHeig
     <div class="imageContainer">
       <v-img
         class="corner-fill-underlay"
-        src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+        src="/images/placeholder.jpg"
         :width="size[0]"
         :height="size[1]"
         cover
       />
       <v-img
         class="underlay"
-        src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+        src="/images/placeholder.jpg"
         :width="size[0]"
         :height="size[1]"
         cover
       >
-        <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" class="original" />
+        <v-img src="/images/placeholder.jpg" class="original" />
       </v-img>
     </div>
   </div>
