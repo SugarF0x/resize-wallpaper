@@ -22,6 +22,13 @@ const size = computed(() => getConfinedSizeByAspectRatio(maxWidth.value, maxHeig
   <div class="preview" ref="previewRef">
     <div class="imageContainer">
       <v-img
+        class="corner-fill-underlay"
+        src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+        :width="size[0]"
+        :height="size[1]"
+        cover
+      />
+      <v-img
         class="underlay"
         src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
         :width="size[0]"
@@ -43,11 +50,19 @@ const size = computed(() => getConfinedSizeByAspectRatio(maxWidth.value, maxHeig
   align-items: center;
 }
 
+.corner-fill-underlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
 .original {
   align-self: center;
 }
 
 :deep(.underlay) {
+  position: relative;
+
   .v-responsive__content {
     display: flex;
   }
