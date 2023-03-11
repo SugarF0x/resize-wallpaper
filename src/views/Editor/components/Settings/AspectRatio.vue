@@ -27,10 +27,10 @@ function setXY(x: number, y: number) {
 <template>
   <div class="aspect-ratio">
     <div v-for="[title, x, y] in presets" :key="title">
-      <h5>{{ title }}</h5>
-      <button @click="setXY(x, y)">
+      <v-btn @click="setXY(x, y)" variant="tonal">
         {{ x }} / {{ y }}
-      </button>
+      </v-btn>
+      <h5>{{ title }}</h5>
     </div>
 
     <div class="input-wrapper">
