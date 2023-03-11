@@ -10,7 +10,6 @@ import AspectRatio from "@/views/Editor/components/Settings/AspectRatio.vue"
 
 <style scoped lang="scss">
 .settings {
-  display: flex;
-  justify-content: space-evenly;
+
 }
 </style>

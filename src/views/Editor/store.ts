@@ -14,11 +14,11 @@ const useEditorStore = defineStore('editor', () => {
   const presetAspectRatios = Object.keys(aspectRatioToPresetMap).map(Number)
   const closestPreset = aspectRatioToPresetMap[getClosestNumber(presetAspectRatios, userAspectRatio)]
 
-  const aspectRatio = ref([closestPreset[1], closestPreset[2]])
+  const presetIndex = ref(aspectPresets.indexOf(closestPreset))
 
   return {
     uploadedImageUrl,
-    aspectRatio
+    presetIndex
   }
 })
 
