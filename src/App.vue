@@ -28,8 +28,8 @@ const links: Array<[string, Paths]> = [
       </v-container>
     </v-app-bar>
 
-    <v-main class="bg-grey-lighten-3">
-      <v-container>
+    <v-main class="bg-grey-lighten-3 d-flex">
+      <v-container class="d-flex flex-grow-1">
         <router-view />
       </v-container>
     </v-main>

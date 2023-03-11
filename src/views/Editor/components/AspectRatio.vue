@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import useEditorStore from "@/views/Editor/store"
 import { storeToRefs } from "pinia"
-import aspectPresets from "@/views/Editor/components/Settings/consts/aspectPresets"
+import aspectPresets from "@/views/Editor/components/consts/aspectPresets"
 import { toPlainObject } from 'lodash'
 
 const ticks = toPlainObject(aspectPresets.map(item => `${item[1]}/${item[2]}`)) as Record<number, string>

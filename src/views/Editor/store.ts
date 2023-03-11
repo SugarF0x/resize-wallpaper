@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
-import { ref } from "vue"
-import aspectPresets from "@/views/Editor/components/Settings/consts/aspectPresets"
+import { computed, ref } from "vue"
+import aspectPresets from "@/views/Editor/components/consts/aspectPresets"
 import { fromPairs } from "lodash"
 import getClosestNumber from "@/utils/numbers/getClosest"
 
@@ -15,10 +15,12 @@ const useEditorStore = defineStore('editor', () => {
   const closestPreset = aspectRatioToPresetMap[getClosestNumber(presetAspectRatios, userAspectRatio)]
 
   const presetIndex = ref(aspectPresets.indexOf(closestPreset))
+  const preset = computed(() => aspectPresets[presetIndex.value])
 
   return {
     uploadedImageUrl,
-    presetIndex
+    presetIndex,
+    preset
   }
 })
 
