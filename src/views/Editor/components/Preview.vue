@@ -20,7 +20,7 @@ const size = computed(() => getConfinedSizeByAspectRatio(maxWidth.value, maxHeig
 </script>
 
 <template>
-  <div v-if="uploadedImageUrl" class="preview" ref="previewRef">
+  <div class="preview" ref="previewRef">
     <div class="imageContainer">
       <v-img
         class="corner-fill-underlay"

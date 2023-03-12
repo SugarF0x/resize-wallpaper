@@ -15,67 +15,46 @@ function dragleave(e: DragEvent) {
   isDragging.value = false
 }
 
-function drop(e: DragEvent) {
-  dragleave(e)
-  if (!input.value) throw new Error('Input is null')
-  input.value.files = e.dataTransfer?.files ?? null
-  onChange()
+function drop() {
+  isDragging.value = false
 }
 
-function onChange() {
-  file.value = input.value?.files?.[0] ?? null
-
-  if (!file.value) return
+const file = ref<Record<number, File> | null>(null)
+watchEffect(() => {
+  const image = file.value?.[0]
+  if (!image) return
   const fr = new FileReader()
   fr.onload = () => {
     let url = fr.result
     if (typeof url !== 'string') url = ''
     uploadedImageUrl.value = url
   }
-  fr.readAsDataURL(file.value)
-}
-
-const file = ref<File | null>(null)
-const input = ref<null | HTMLInputElement>(null)
-
-watchEffect(() => {
-  if (uploadedImageUrl.value !== '') return
-  if (!input.value) return
-  input.value.value = ''
+  fr.readAsDataURL(image)
 })
 
 const isDragging = ref(false)
-const labelText = computed(() => isDragging.value ? 'Release to drop files here' : 'Drop files here or click here to upload.')
+const labelText = computed(() => {
+  if (file.value) return 'Selected file'
+  if (isDragging.value) return 'Release to drop files here'
+  return 'Drop files here or click here to upload.'
+})
 </script>
 
 <template>
-  <div class="file-drop">
-    <input
-      type="file"
-      name="file"
-      id="fileInput"
-      @change="onChange"
-      ref="input"
-      accept=".jpg,.jpeg,.png"
-    />
-
-    <label
-      for="fileInput"
+  <div>
+    <v-file-input
+      v-model="file"
+      :label="labelText"
+      prepend-icon="mdi-paperclip"
+      variant="outlined"
+      :show-size="1000"
       @dragover="dragover"
       @dragleave="dragleave"
       @drop="drop"
-    >
-      {{ labelText }}
-    </label>
+    />
   </div>
 </template>
 
 <style scoped lang="scss">
-.file-drop {
-  border: 1px solid red;
-  display: flex;
 
-  input { display: none; }
-  label { flex: 1; }
-}
 </style>
