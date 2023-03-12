@@ -8,6 +8,8 @@ export default function getConfinedSizeByAspectRatio(width: number, height: numb
   return [width, width * heightAspect / widthAspect]
 }
 
+/// VITEST
+
 if (import.meta.vitest) {
   const { describe, it, expect } = import.meta.vitest
 
