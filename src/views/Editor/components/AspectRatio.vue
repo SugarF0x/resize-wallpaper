@@ -3,6 +3,9 @@ import useEditorStore from "@/views/Editor/store"
 import { storeToRefs } from "pinia"
 import aspectPresets from "@/views/Editor/components/consts/aspectPresets"
 import { toPlainObject } from 'lodash'
+import { useDisplay } from "vuetify"
+
+const { mdAndUp } = useDisplay()
 
 const ticks = toPlainObject(aspectPresets.map(item => `${item[1]}/${item[2]}`)) as Record<number, string>
 
@@ -16,6 +19,7 @@ const { presetIndex } = storeToRefs(useEditorStore())
       :ticks="ticks"
       :max="aspectPresets.length - 1"
       step="1"
+      :show-ticks="mdAndUp && 'always'"
       tick-size="4"
       thumb-label="always"
     >
