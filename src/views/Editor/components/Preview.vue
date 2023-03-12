@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
 import useEditorStore from "@/views/Editor/store"
-import { computed, onMounted, ref } from "vue"
+import { computed, ref, watchEffect } from "vue"
 import getConfinedSizeByAspectRatio from "@/utils/getConfinedSizeByAspectRatio"
 
-const { preset } = storeToRefs(useEditorStore())
+const { preset, uploadedImageUrl } = storeToRefs(useEditorStore())
 
 const maxWidth = ref(0)
 const maxHeight = ref(0)
 const previewRef = ref<null | HTMLDivElement>(null)
-onMounted(() => {
+
+watchEffect(() => {
   if (!previewRef.value) return
   maxWidth.value = previewRef.value.clientWidth
   maxHeight.value = previewRef.value.clientHeight
@@ -19,23 +20,31 @@ const size = computed(() => getConfinedSizeByAspectRatio(maxWidth.value, maxHeig
 </script>
 
 <template>
-  <div class="preview" ref="previewRef">
+  <div v-if="uploadedImageUrl" class="preview" ref="previewRef">
     <div class="imageContainer">
       <v-img
         class="corner-fill-underlay"
-        src="/images/placeholder.jpg"
+        :src="uploadedImageUrl"
         :width="size[0]"
         :height="size[1]"
         cover
       />
       <v-img
         class="underlay"
-        src="/images/placeholder.jpg"
+        :src="uploadedImageUrl"
         :width="size[0]"
         :height="size[1]"
         cover
       >
-        <v-img src="/images/placeholder.jpg" class="original" />
+        <template v-slot:placeholder>
+          <div class="d-flex align-center justify-center fill-height">
+            <v-progress-circular
+              color="grey-lighten-4"
+              indeterminate
+            ></v-progress-circular>
+          </div>
+        </template>
+        <v-img :src="uploadedImageUrl" class="original" />
       </v-img>
     </div>
   </div>

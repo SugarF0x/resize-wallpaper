@@ -14,8 +14,6 @@ const { uploadedImageUrl } = storeToRefs(useEditorStore())
 
     <button @click="uploadedImageUrl = ''">reset</button>
 
-    <img :src="uploadedImageUrl" alt="">
-
     <file-upload />
 
     <preview />
