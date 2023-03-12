@@ -1,0 +1,116 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  S3_BUCKET: wallpaper-resizer.sugar-fox.ru
+  DIST_PATH: dist/
+  RELEASE_PATH: output.zip
+
+jobs:
+  run-vitest:
+    name: Vitest
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js & yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: Install project dependencies
+        run: yarn --prefer-offline
+
+      - name: Run vitest
+        run: yarn test:vitest
+
+  run-tsc:
+    name: Type check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js & yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: Install project dependencies
+        run: yarn --prefer-offline
+
+      - name: Run type check
+        run: yarn test:types
+
+  build:
+    name: Build distributive
+    needs: [ run-vitest, run-tsc ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js & yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: Install project dependencies
+        run: yarn --prefer-offline
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn build
+
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r output.zip ${{ env.DIST_PATH }}
+
+      - name: Upload deployment artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: ${{ env.DIST_PATH }}
+          retention-days: 3
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: release
+          path: ${{ env.RELEASE_PATH }}
+          retention-days: 3
+
+  deploy:
+    name: Deploy distributive
+    needs: [ build ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download distributive artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+
+      - name: Upload to bucket
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_S3_BUCKET: ${{ env.S3_BUCKET }}
+          AWS_REGION: ru-central1
+          AWS_S3_ENDPOINT: https://storage.yandexcloud.net
