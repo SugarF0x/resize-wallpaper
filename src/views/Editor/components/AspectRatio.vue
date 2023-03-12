@@ -16,9 +16,13 @@ const { presetIndex } = storeToRefs(useEditorStore())
       :ticks="ticks"
       :max="aspectPresets.length - 1"
       step="1"
-      show-ticks="always"
       tick-size="4"
-    />
+      thumb-label="always"
+    >
+      <template #thumb-label="{ modelValue }">
+        {{ ticks[modelValue] }}
+      </template>
+    </v-slider>
 
     <div class="description">
       {{ aspectPresets[presetIndex][0] }}
@@ -27,7 +31,13 @@ const { presetIndex } = storeToRefs(useEditorStore())
 </template>
 
 <style scoped lang="scss">
+.aspect-ratio {
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+}
+
 .description {
+  height: 2em;
   text-align: center;
 }
 </style>

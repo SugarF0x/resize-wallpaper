@@ -11,8 +11,8 @@ const { uploadedImageUrl } = storeToRefs(useEditorStore())
 <template>
   <div class="editor">
     <file-upload />
-    <aspect-ratio v-if="uploadedImageUrl" />
     <preview v-if="uploadedImageUrl" />
+    <aspect-ratio v-if="uploadedImageUrl" />
   </div>
 </template>
 
