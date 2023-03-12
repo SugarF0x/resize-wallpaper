@@ -18,14 +18,11 @@ const useEditorStore = defineStore('editor', () => {
   const presetIndex = ref(aspectPresets.indexOf(closestPreset))
   const preset = computed(() => aspectPresets[presetIndex.value])
 
-  const shouldDownload = ref(false)
-
   return {
     fileName,
     uploadedImageUrl,
     presetIndex,
-    preset,
-    shouldDownload
+    preset
   }
 })
 
