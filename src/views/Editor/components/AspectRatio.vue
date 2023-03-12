@@ -10,6 +10,12 @@ const { mdAndUp } = useDisplay()
 const ticks = toPlainObject(aspectPresets.map(item => `${item[1]}/${item[2]}`)) as Record<number, string>
 
 const { presetIndex } = storeToRefs(useEditorStore())
+
+function getTickValueFromScope(scope: unknown): number {
+  const doesScopeHaveValue = (scope: any): scope is { modelValue: number } => 'modelValue' in scope
+  if (doesScopeHaveValue(scope)) return scope.modelValue
+  return 0
+}
 </script>
 
 <template>
@@ -23,8 +29,8 @@ const { presetIndex } = storeToRefs(useEditorStore())
       tick-size="4"
       thumb-label="always"
     >
-      <template #thumb-label="{ modelValue }">
-        {{ ticks[modelValue] }}
+      <template v-slot:thumb-label="scope">
+        {{ ticks[getTickValueFromScope(scope)] }}
       </template>
     </v-slider>
 

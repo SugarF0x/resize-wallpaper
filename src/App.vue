@@ -20,7 +20,7 @@ const links: Array<[string, Paths]> = [
 
         <v-btn
           v-for="link in links"
-          :key="link"
+          :key="link[0]"
           :to="link[1]"
           variant="text"
         >

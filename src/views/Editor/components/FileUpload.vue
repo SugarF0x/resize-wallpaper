@@ -19,7 +19,7 @@ function drop() {
   isDragging.value = false
 }
 
-const file = ref<Record<number, File> | null>(null)
+const file = ref<File[] | undefined>()
 watchEffect(() => {
   const image = file.value?.[0]
   if (!image) return
