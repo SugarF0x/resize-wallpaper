@@ -6,6 +6,7 @@ import getClosestNumber from "@/utils/numbers/getClosest"
 
 const useEditorStore = defineStore('editor', () => {
   const uploadedImageUrl = ref('')
+  const fileName = ref('')
 
   const { outerWidth, outerHeight } = window
   const userAspectRatio = outerWidth / outerHeight
@@ -18,6 +19,7 @@ const useEditorStore = defineStore('editor', () => {
   const preset = computed(() => aspectPresets[presetIndex.value])
 
   return {
+    fileName,
     uploadedImageUrl,
     presetIndex,
     preset

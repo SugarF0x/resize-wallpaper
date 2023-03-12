@@ -3,8 +3,10 @@ import { storeToRefs } from "pinia"
 import useEditorStore from "@/views/Editor/store"
 import { computed, ref, watchEffect } from "vue"
 import getConfinedSizeByAspectRatio from "@/utils/getConfinedSizeByAspectRatio"
+import { toBlob } from "html-to-image"
+import { saveAs } from 'file-saver'
 
-const { preset, uploadedImageUrl } = storeToRefs(useEditorStore())
+const { preset, uploadedImageUrl, fileName } = storeToRefs(useEditorStore())
 
 const maxWidth = ref(0)
 const maxHeight = ref(0)
@@ -17,11 +19,20 @@ watchEffect(() => {
 })
 
 const size = computed(() => getConfinedSizeByAspectRatio(maxWidth.value, maxHeight.value, preset.value[1], preset.value[2]))
+
+const PREVIEW_ID = 'image-preview'
+async function download() {
+  const previewElement = document.getElementById(PREVIEW_ID)
+  if (!previewElement) throw new Error('Preview element not found')
+  const blob = await toBlob(previewElement)
+  if (!blob) throw new Error('Failed to generate file blob')
+  saveAs(blob, `${preset.value[1]}-${preset.value[2]}-${fileName.value}`)
+}
 </script>
 
 <template>
   <div class="preview" ref="previewRef">
-    <div class="imageContainer">
+    <div class="imageContainer" :id="PREVIEW_ID" @click="download">
       <v-img
         class="corner-fill-underlay"
         :src="uploadedImageUrl"
@@ -36,15 +47,10 @@ const size = computed(() => getConfinedSizeByAspectRatio(maxWidth.value, maxHeig
         :height="size[1]"
         cover
       >
-        <template v-slot:placeholder>
-          <div class="d-flex align-center justify-center fill-height">
-            <v-progress-circular
-              color="grey-lighten-4"
-              indeterminate
-            ></v-progress-circular>
-          </div>
-        </template>
         <v-img :src="uploadedImageUrl" class="original" />
+        <v-chip class="cta" variant="elevated" size="x-small">
+          Click the image to download
+        </v-chip>
       </v-img>
     </div>
   </div>
@@ -79,5 +85,11 @@ const size = computed(() => getConfinedSizeByAspectRatio(maxWidth.value, maxHeig
   > img {
     filter: blur(8px)
   }
+}
+
+.cta {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
 }
 </style>

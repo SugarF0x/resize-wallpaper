@@ -3,7 +3,7 @@ import { computed, ref, watchEffect } from "vue"
 import useEditorStore from "@/views/Editor/store"
 import { storeToRefs } from "pinia"
 
-const { uploadedImageUrl } = storeToRefs(useEditorStore())
+const { uploadedImageUrl, fileName } = storeToRefs(useEditorStore())
 
 function dragover(e: DragEvent) {
   e.preventDefault()
@@ -23,6 +23,9 @@ const file = ref<Record<number, File> | null>(null)
 watchEffect(() => {
   const image = file.value?.[0]
   if (!image) return
+
+  fileName.value = image.name
+
   const fr = new FileReader()
   fr.onload = () => {
     let url = fr.result
