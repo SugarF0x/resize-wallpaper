@@ -22,6 +22,7 @@ if (import.meta.vitest) {
       [[100, 100, 2, 1], [200, 100]],
       [[100, 100, 16, 9], [100 * 16 / 9, 100]],
       [[100, 100, 9, 16], [100, 100 * 16 / 9]],
+      [[1280, 1558, 16, 10], [2492.8, 1558]],
     ])("should expand size to fit given image size into a aspect rario parent wrapper", (inputs, output) => {
       expect(getWrapperSizeByAspectRatio(...inputs)).toEqual(output)
     })

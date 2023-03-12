@@ -3,10 +3,8 @@ import { storeToRefs } from "pinia"
 import useEditorStore from "@/views/Editor/store"
 import { computed, ref, watchEffect } from "vue"
 import getConfinedSizeByAspectRatio from "@/utils/getConfinedSizeByAspectRatio"
-import { toBlob } from "html-to-image"
-import { saveAs } from 'file-saver'
 
-const { preset, uploadedImageUrl, fileName } = storeToRefs(useEditorStore())
+const { preset, uploadedImageUrl, shouldDownload } = storeToRefs(useEditorStore())
 
 const maxWidth = ref(0)
 const maxHeight = ref(0)
@@ -20,19 +18,14 @@ watchEffect(() => {
 
 const size = computed(() => getConfinedSizeByAspectRatio(maxWidth.value, maxHeight.value, preset.value[1], preset.value[2]))
 
-const PREVIEW_ID = 'image-preview'
 async function download() {
-  const previewElement = document.getElementById(PREVIEW_ID)
-  if (!previewElement) throw new Error('Preview element not found')
-  const blob = await toBlob(previewElement)
-  if (!blob) throw new Error('Failed to generate file blob')
-  saveAs(blob, `${preset.value[1]}-${preset.value[2]}-${fileName.value}`)
+  shouldDownload.value = true
 }
 </script>
 
 <template>
   <div class="preview" ref="previewRef">
-    <div class="imageContainer" :id="PREVIEW_ID" @click="download">
+    <div class="imageContainer" @click="download">
       <v-img
         class="corner-fill-underlay"
         :src="uploadedImageUrl"
