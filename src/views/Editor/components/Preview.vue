@@ -48,9 +48,6 @@ async function download() {
         cover
       >
         <v-img :src="uploadedImageUrl" class="original" />
-        <v-chip class="cta" variant="elevated" size="x-small">
-          Click the image to download
-        </v-chip>
       </v-img>
     </div>
   </div>
@@ -63,6 +60,10 @@ async function download() {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.imageContainer {
+  cursor: pointer;
 }
 
 .corner-fill-underlay {
@@ -85,11 +86,5 @@ async function download() {
   > img {
     filter: blur(8px)
   }
-}
-
-.cta {
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
 }
 </style>

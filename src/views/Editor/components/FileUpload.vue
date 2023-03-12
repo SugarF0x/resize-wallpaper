@@ -46,11 +46,13 @@ const labelText = computed(() => {
 <template>
   <div>
     <v-file-input
+      class="file-input"
       v-model="file"
       :label="labelText"
       prepend-icon="mdi-paperclip"
       variant="outlined"
       :show-size="1000"
+      :messages="file ? 'Click the image preview to download' : ''"
       @dragover="dragover"
       @dragleave="dragleave"
       @drop="drop"
@@ -59,5 +61,7 @@ const labelText = computed(() => {
 </template>
 
 <style scoped lang="scss">
-
+.file-input {
+  margin-bottom: 1rem;
+}
 </style>
