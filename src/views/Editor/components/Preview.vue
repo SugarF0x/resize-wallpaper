@@ -59,13 +59,6 @@ async function download() {
   <div class="preview" ref="previewRef">
     <div class="imageContainer" :style="{ cursor: !isDownloading ? 'pointer' : 'not-allowed' }" @click="download" :id="PREVIEW_ID">
       <v-img
-        class="corner-fill-underlay"
-        :src="uploadedImageUrl"
-        :width="previewSize[0]"
-        :height="previewSize[1]"
-        cover
-      />
-      <v-img
         class="underlay"
         :src="uploadedImageUrl"
         :width="previewSize[0]"
@@ -87,12 +80,6 @@ async function download() {
   align-items: center;
 }
 
-.corner-fill-underlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
 .original {
   align-self: center;
 }
@@ -105,7 +92,8 @@ async function download() {
   }
 
   > img {
-    filter: blur(8px)
+    filter: blur(8px);
+    transform: scale(1.1);
   }
 }
 </style>
