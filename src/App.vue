@@ -8,7 +8,7 @@ const links: Array<[string, Paths]> = [
 </script>
 
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-app-bar flat>
       <v-container class="fill-height d-flex align-center">
         <v-avatar
@@ -30,7 +30,7 @@ const links: Array<[string, Paths]> = [
     </v-app-bar>
 
     <v-main class="bg-grey-lighten-3 d-flex">
-      <v-container class="d-flex flex-grow-1">
+      <v-container class="d-flex flex-column flex-grow-1">
         <router-view />
       </v-container>
     </v-main>
